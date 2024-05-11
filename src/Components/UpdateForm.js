@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch , useSelector} from 'react-redux';
 import { updateContact } from './../Store/Slice';
 import toast from "react-hot-toast";
@@ -9,13 +9,23 @@ import {useNavigate} from 'react-router-dom'
 function UpdateForm() {
   const navigate = useNavigate();
   const {id} = useParams();
-  console.log(id); 
+//   console.log(id); 
   const contacts = useSelector(state => state.contacts);
-  const contact = contacts.filter((eachContact) => eachContact.id == id);
+  const contact = contacts.filter((eachContact) => eachContact.id === id);
+  const dispatch = useDispatch();
+
   const [firstName, setFirstName] = useState(contact.firstName);
   const [lastName, setLastName] = useState(contact.lastName);
   const [status, setStatus] = useState(contact.status);
-  const dispatch = useDispatch();
+
+
+  useEffect(()=> {
+        setFirstName(contact.firstName);
+        setLastName(contact.lastName);
+        setStatus(contact.status);
+        console.log(firstName);
+  },[contact])
+  
   
 
   const handleChange = (event) => {
